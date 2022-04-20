@@ -10,5 +10,5 @@ export const InterestSchema = new mongoose.Schema<InterestEntity>({
 }, {...mongoTimeStamps});
 
 InterestSchema.pre("save", function(next){
-    incrementCounter(next, "interest", this.id)
+    incrementCounter(next, "interest", this)
 });
