@@ -4,23 +4,8 @@ import { LeadModel } from "../mongo/lead/lead.model";
 
 export default class LeadRepository {
     
-    static create(entity: LeadEntity){
-       LeadModel.create(entity);
-    }
-
-    static async addInterests(data: InterestEntity, leadId: number) {
-        try {
-            const lead = await LeadModel.findOne({id: leadId});
-            if(lead) {
-                lead.interests.push(data);
-                lead.save();
-            }
-            
-        } catch (error) {
-            
-        }
-      
-        
+    static async create(entity: LeadEntity){
+       return await LeadModel.create(entity);
     }
 
     static getAll(){
@@ -32,7 +17,4 @@ export default class LeadRepository {
     static get(id: number){
         return LeadModel.findOne({id}).lean();
     }
-
-
-    
 }

@@ -6,5 +6,4 @@ export interface LeadEntity extends IModel{
     phone: string;
     first_name: string;
     last_name: string;
-    interests: InterestEntity[]
 }

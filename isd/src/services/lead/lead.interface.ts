@@ -5,4 +5,5 @@ export interface ILeadRequest{
     phone: string;
     firstName: string;
     lastName: string;
+    message: string;
 }

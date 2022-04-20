@@ -1,10 +1,13 @@
-import { ILeadModel, ILeadRequest } from "./lead.interface";
+import { InterestEntity } from "../../mongo/interests/interest.entity";
+import { LeadEntity } from "../../mongo/lead/lead.entity";
+import { ILeadRequest } from "./lead.interface";
 
-export class LeadRequestDTO implements ILeadModel{
+export class LeadRequestDTO implements LeadEntity{
     email: string;
     phone: string;
     first_name: string;
     last_name: string;
+    interests: InterestEntity[];
     
     constructor(request: ILeadRequest) {
         this.email = request.email;

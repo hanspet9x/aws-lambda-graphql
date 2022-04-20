@@ -10,7 +10,6 @@ export const LeadSchema = new mongoose.Schema<LeadEntity>({
     first_name: String,
     last_name: String,
     phone: {type: String, unique: true},
-    interests: [InterestSchema]
 }, {...mongoTimeStamps});
 
 LeadSchema.pre("save", function(next){
