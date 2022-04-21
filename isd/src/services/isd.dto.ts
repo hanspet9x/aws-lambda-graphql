@@ -1,13 +1,15 @@
 import {InterestEntity} from '../mongo/interests/interest.entity';
 import {LeadEntity} from '../mongo/lead/lead.entity';
-import {IInterestResponse, ILeadResponse, ISDRequest} from './isd.interface';
+import {IInterestResponse, ILeadResponse, ISDRequest, ISDResponse} from './isd.interface';
 
 export class LeadEntityDTO implements LeadEntity {
   email: string;
   phone: string;
   first_name: string;
   last_name: string;
+  id: number;
   constructor(request: ISDRequest) {
+    this.id = 0;
     this.email = request.email;
     this.phone = request.phone;
     this.first_name = request.firstName;
@@ -32,8 +34,8 @@ export const interestEntityToResponse = (
       [getEntity(entities)];
 };
 
-export class ISDResponseDTO implements ILeadResponse {
-  id?: number;
+export class ISDResponseDTO implements ISDResponse {
+  id: number;
   email: string;
   phone: string;
   firstName: string;
@@ -49,6 +51,26 @@ export class ISDResponseDTO implements ILeadResponse {
     this.firstName = lead.first_name;
     this.lastName = lead.last_name;
     this.interests = interestEntityToResponse(interests);
+    this.createdAt = lead.created_at?.toDateString() ?? '';
+    this.updatedAt = lead.updated_at?.toDateString() ?? '';
+  }
+}
+
+export class LeadResponseDTO implements ILeadResponse {
+  id: number;
+  email: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+  updatedAt: string;
+
+  constructor(lead: LeadEntity) {
+    this.id = lead.id;
+    this.email = lead.email;
+    this.phone = lead.phone;
+    this.firstName = lead.first_name;
+    this.lastName = lead.last_name;
     this.createdAt = lead.created_at?.toDateString() ?? '';
     this.updatedAt = lead.updated_at?.toDateString() ?? '';
   }

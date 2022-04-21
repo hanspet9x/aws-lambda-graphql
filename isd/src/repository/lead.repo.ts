@@ -6,6 +6,10 @@ export default class LeadRepository {
     return await LeadModel.create(entity);
   }
 
+  static async exists(phone: string, email: string) {
+    return LeadModel.exists({$or: [{email}, {phone}]});
+  }
+
   static async getAll() {
     return LeadModel.find()
         .sort({created_at: 'desc'})

@@ -2,7 +2,7 @@ import {LeadEntity} from '../mongo/lead/lead.entity';
 import InterestRepository from '../repository/interest.repo';
 import LeadRepository from '../repository/lead.repo';
 import ResponseError from '../utils/error.response';
-import {ISDResponseDTO, LeadEntityDTO} from './isd.dto';
+import {ISDResponseDTO, LeadEntityDTO, LeadResponseDTO} from './isd.dto';
 import {ISDInterestRequest, ISDRequest, LeadId} from './isd.interface';
 
 export default class ISDservice {
@@ -10,6 +10,11 @@ export default class ISDservice {
     try {
       // transform and extract lead entity from request
       const leadEntity = new LeadEntityDTO(request);
+      // check if lead exists by phone or email
+      if ((await LeadRepository.exists(request.phone, request.email))) {
+        // throw duplicate
+        throw ResponseError.throw('duplicate data found.', 400);
+      }
       // create lead
       const lead = await LeadRepository.create(leadEntity);
       // create interests if lead and message are truthy
@@ -43,6 +48,16 @@ export default class ISDservice {
           `Lead ${request.regKey} does not exist`,
           400,
       );
+    } catch (error) {
+      throw ResponseError.throw(error, 500);
+    }
+  }
+
+  static async getLeads() {
+    try {
+      // get leads
+      const leads = await LeadRepository.getAll();
+      return leads.map((lead) => new LeadResponseDTO(lead));
     } catch (error) {
       throw ResponseError.throw(error, 500);
     }

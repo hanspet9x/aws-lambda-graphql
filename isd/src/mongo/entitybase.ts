@@ -1,11 +1,11 @@
 export interface IEntityResponseBase {
-    id?: number;
+    id: number;
     createdAt: string;
     updatedAt: string;
 }
 
 export interface IModel{
-    id?: number;
+    id: number;
     created_at?: Date;
     updated_at?: Date;
 }

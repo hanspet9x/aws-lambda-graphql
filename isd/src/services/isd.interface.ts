@@ -33,3 +33,8 @@ export interface IInterestResponse extends IEntityResponseBase{
     leadId: number;
     message: string;
 }
+
+export interface ISDResponse extends ILeadResponse{
+    id: number;
+    interests: IInterestResponse[];
+}
