@@ -6,25 +6,47 @@ import {ISDResponseDTO, LeadEntityDTO, LeadResponseDTO} from './isd.dto';
 import {ISDInterestRequest, ISDRequest, LeadId} from './isd.interface';
 
 export default class ISDservice {
+  /**
+   * It creates lead and interests. If lead exists by phone or email it
+   * creates just the interest.
+   *
+   * @param {ISDRequest} request The lead and interest
+   * @return {ISDResponse} The lead and interest data
+   */
   static async create(request: ISDRequest) {
     try {
       // transform and extract lead entity from request
       const leadEntity = new LeadEntityDTO(request);
-      // check if lead exists by phone or email
-      if ((await LeadRepository.exists(request.phone, request.email))) {
-        // throw duplicate
-        throw ResponseError.throw('duplicate data found.', 400);
+      // find lead by phone or email
+      let lead = await LeadRepository.getByPhoneAndEmail(request.phone, request.email);
+      if (!lead) {
+        // create lead if does not exist.
+        lead = await LeadRepository.create(leadEntity);
       }
-      // create lead
-      const lead = await LeadRepository.create(leadEntity);
       // create interests if lead and message are truthy
-      if (lead && request.message) {
+      if (lead) {
         const interest = await InterestRepository.create(lead.id, request.message);
         // merge lead and interests together in response.
         return new ISDResponseDTO(lead, interest);
       }
       // can not create lead
       throw ResponseError.throw('Unable to create lead', 500);
+    } catch (error) {
+      throw ResponseError.throw(error, 500);
+    }
+  }
+
+  /**
+   * It retrives all lead collection from the db and transform
+   * its fields from snake_case to camelCase.
+   *
+   * @return {ILeadResponse[]} The lead data collection.
+   */
+  static async getLeads() {
+    try {
+      // get leads
+      const leads = await LeadRepository.getAll();
+      return leads.map((lead) => new LeadResponseDTO(lead));
     } catch (error) {
       throw ResponseError.throw(error, 500);
     }
@@ -48,16 +70,6 @@ export default class ISDservice {
           `Lead ${request.regKey} does not exist`,
           400,
       );
-    } catch (error) {
-      throw ResponseError.throw(error, 500);
-    }
-  }
-
-  static async getLeads() {
-    try {
-      // get leads
-      const leads = await LeadRepository.getAll();
-      return leads.map((lead) => new LeadResponseDTO(lead));
     } catch (error) {
       throw ResponseError.throw(error, 500);
     }

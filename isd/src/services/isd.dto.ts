@@ -40,19 +40,29 @@ export class ISDResponseDTO implements ISDResponse {
   phone: string;
   firstName: string;
   lastName: string;
-  interests: IInterestResponse[];
+  interest: IInterestResponse;
   createdAt: string;
   updatedAt: string;
 
-  constructor(lead: LeadEntity, interests: InterestEntity[] | InterestEntity) {
+  constructor(lead: LeadEntity, interest: InterestEntity) {
     this.id = lead.id;
     this.email = lead.email;
     this.phone = lead.phone;
     this.firstName = lead.first_name;
     this.lastName = lead.last_name;
-    this.interests = interestEntityToResponse(interests);
+    this.interest = this.transformInterest(interest);
     this.createdAt = lead.created_at?.toDateString() ?? '';
     this.updatedAt = lead.updated_at?.toDateString() ?? '';
+  }
+
+  transformInterest(entity: InterestEntity) {
+    return {
+      leadId: entity.lead_id,
+      id: entity.id,
+      message: entity.message,
+      createdAt: entity.created_at?.toDateString() ?? '',
+      updatedAt: entity.updated_at?.toDateString() ?? '',
+    };
   }
 }
 

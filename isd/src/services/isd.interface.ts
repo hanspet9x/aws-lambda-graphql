@@ -7,7 +7,7 @@ export interface ISDRequest{
     phone: string;
     firstName: string;
     lastName: string;
-    message?: string;
+    message: string;
 }
 
 export enum LeadId {
@@ -36,5 +36,5 @@ export interface IInterestResponse extends IEntityResponseBase{
 
 export interface ISDResponse extends ILeadResponse{
     id: number;
-    interests: IInterestResponse[];
+    interest: IInterestResponse;
 }

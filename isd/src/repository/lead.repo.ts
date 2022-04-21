@@ -10,6 +10,10 @@ export default class LeadRepository {
     return LeadModel.exists({$or: [{email}, {phone}]});
   }
 
+  static async getByPhoneAndEmail(phone: string, email: string) {
+    return LeadModel.findOne({$or: [{email}, {phone}]});
+  }
+
   static async getAll() {
     return LeadModel.find()
         .sort({created_at: 'desc'})
