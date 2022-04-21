@@ -1,20 +1,22 @@
-import { InterestEntity } from "../mongo/interests/interest.entity";
-import { LeadEntity } from "../mongo/lead/lead.entity";
-import { LeadModel } from "../mongo/lead/lead.model";
+import {LeadEntity} from '../mongo/lead/lead.entity';
+import {LeadModel} from '../mongo/lead/lead.model';
 
 export default class LeadRepository {
-    
-    static async create(entity: LeadEntity){
-       return await LeadModel.create(entity);
-    }
+  static async create(entity: LeadEntity) {
+    return await LeadModel.create(entity);
+  }
 
-    static getAll(){
-        return LeadModel.find()
+  static async getAll() {
+    return LeadModel.find()
         .sort({created_at: 'desc'})
         .exec();
-    }
+  }
 
-    static get(id: number){
-        return LeadModel.findOne({id}).lean();
-    }
+  static async get(id: number) {
+    return LeadModel.findOne({id}).lean();
+  }
+
+  static async getOneAny(key: string, value: any) {
+    return LeadModel.findOne({[key]: value}).lean();
+  }
 }

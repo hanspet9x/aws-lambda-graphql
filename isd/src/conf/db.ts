@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { appConfig } from './app';
+import {appConfig} from './app';
 
 export const initDatabaseConnection = async () => {
-    await mongoose.connect(appConfig.dbURL);
-}
+  await mongoose.connect(appConfig.dbURL);
+};

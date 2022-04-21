@@ -1,4 +1,4 @@
-import { IModel } from "../../services/common.interface";
+import {IModel} from '../entitybase';
 
 export interface InterestEntity extends IModel{
     lead_id: number;

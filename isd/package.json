@@ -11,7 +11,8 @@
   "scripts": {
     "start": "bash start.bash",
     "unit": "jest",
-    "lint": "eslint '*.ts' --quiet --fix",
+    "lint": "eslint . --ext .ts",
+    "lint-fix": "eslint . --ext .ts --fix",
     "compile": "tsc",
     "test": "npm run compile && npm run unit"
   },
