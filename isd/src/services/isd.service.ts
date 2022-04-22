@@ -1,7 +1,7 @@
 import {LeadEntity} from '../mongo/lead/lead.entity';
 import InterestRepository from '../repository/interest.repo';
 import LeadRepository from '../repository/lead.repo';
-import ResponseError from '../utils/error.response';
+import ResponseError from './response/error.response';
 import {InterestResponseDTO, ISDResponseDTO, LeadEntityDTO, LeadResponseDTO} from './isd.dto';
 import {ISDInterestRequest, ISDRequest, LeadId} from './isd.interface';
 
