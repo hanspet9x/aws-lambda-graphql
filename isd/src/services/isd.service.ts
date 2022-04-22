@@ -2,7 +2,7 @@ import {LeadEntity} from '../mongo/lead/lead.entity';
 import InterestRepository from '../repository/interest.repo';
 import LeadRepository from '../repository/lead.repo';
 import ResponseError from '../utils/error.response';
-import {ISDResponseDTO, LeadEntityDTO, LeadResponseDTO} from './isd.dto';
+import {InterestResponseDTO, ISDResponseDTO, LeadEntityDTO, LeadResponseDTO} from './isd.dto';
 import {ISDInterestRequest, ISDRequest, LeadId} from './isd.interface';
 
 export default class ISDservice {
@@ -52,10 +52,23 @@ export default class ISDservice {
     }
   }
 
+  static async getLead(leadId: number) {
+    try {
+      // get leads
+      const lead = await LeadRepository.get(leadId);
+      if (lead) {
+        return new LeadResponseDTO(lead);
+      }
+      throw ResponseError.throw('LeadId not found', 400);
+    } catch (error) {
+      throw ResponseError.throw(error, 500);
+    }
+  }
+
   static async addInterest(request: ISDInterestRequest) {
     try {
       // get search id and set correspoding text.
-      const key = ISDservice.getLeadId(request.regKey);
+      const key = request.regKey.toString().toLowerCase();
       // find lead using the request key and value
       const lead = await LeadRepository.getOneAny(key, request.regValue);
 
@@ -83,6 +96,24 @@ export default class ISDservice {
         return 'phone';
       default:
         return 'id';
+    }
+  }
+
+  static async getInterests() {
+    try {
+      // get leads
+      const interests = await InterestRepository.getAll();
+      return interests.map((interest) => new InterestResponseDTO(interest));
+    } catch (error) {
+      throw ResponseError.throw(error, 500);
+    }
+  }
+
+  static async getInterest(leadId: number) {
+    try {
+      return await InterestRepository.getByLeadId(leadId);
+    } catch (error) {
+      throw ResponseError.throw(error, 500);
     }
   }
 }

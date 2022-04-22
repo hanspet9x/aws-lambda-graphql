@@ -51,8 +51,8 @@ export class ISDResponseDTO implements ISDResponse {
     this.firstName = lead.first_name;
     this.lastName = lead.last_name;
     this.interest = this.transformInterest(interest);
-    this.createdAt = lead.created_at?.toDateString() ?? '';
-    this.updatedAt = lead.updated_at?.toDateString() ?? '';
+    this.createdAt = lead.created_at?.toLocaleString() ?? '';
+    this.updatedAt = lead.updated_at?.toLocaleString() ?? '';
   }
 
   transformInterest(entity: InterestEntity) {
@@ -60,8 +60,8 @@ export class ISDResponseDTO implements ISDResponse {
       leadId: entity.lead_id,
       id: entity.id,
       message: entity.message,
-      createdAt: entity.created_at?.toDateString() ?? '',
-      updatedAt: entity.updated_at?.toDateString() ?? '',
+      createdAt: entity.created_at?.toLocaleString() ?? '',
+      updatedAt: entity.updated_at?.toLocaleString() ?? '',
     };
   }
 }
@@ -81,7 +81,24 @@ export class LeadResponseDTO implements ILeadResponse {
     this.phone = lead.phone;
     this.firstName = lead.first_name;
     this.lastName = lead.last_name;
-    this.createdAt = lead.created_at?.toDateString() ?? '';
-    this.updatedAt = lead.updated_at?.toDateString() ?? '';
+    this.createdAt = lead.created_at?.toLocaleString() ?? '';
+    this.updatedAt = lead.updated_at?.toLocaleString() ?? '';
+  }
+}
+
+
+export class InterestResponseDTO implements IInterestResponse {
+  id: number;
+  leadId: number;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+
+  constructor(lead: InterestEntity) {
+    this.id = lead.id;
+    this.leadId = lead.lead_id;
+    this.message = lead.message;
+    this.createdAt = lead.created_at?.toLocaleString() ?? '';
+    this.updatedAt = lead.updated_at?.toLocaleString() ?? '';
   }
 }

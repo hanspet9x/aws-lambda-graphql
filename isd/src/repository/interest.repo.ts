@@ -1,4 +1,3 @@
-import {InterestEntity} from '../mongo/interests/interest.entity';
 import {InterestModel} from '../mongo/interests/interest.model';
 
 export default class InterestRepository {

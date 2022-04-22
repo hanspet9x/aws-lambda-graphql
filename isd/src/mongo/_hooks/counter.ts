@@ -7,11 +7,14 @@ export function incrementCounter(
     counterColumn: keyof CounterEntity,
     model: any,
 ) {
+  console.log('Triggered hooks', counterColumn);
   if (model.isNew) {
-    CounterModel.findByIdAndUpdate(
-        {_id: 'entityId'},
+    CounterModel.findOneAndUpdate(
+        {id: 1},
         {$inc: {[counterColumn]: 1}},
-        (error, doc) => {
+        {upsert: true, new: true},
+        (error: mongoose.CallbackError, doc: CounterEntity) => {
+          console.log('couunter entity', doc);
           if (error) return next(error);
           if (doc)model.id = doc[counterColumn];
           next();

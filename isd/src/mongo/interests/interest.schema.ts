@@ -4,7 +4,7 @@ import {incrementCounter} from '../_hooks/counter';
 import {InterestEntity} from './interest.entity';
 
 export const InterestSchema = new mongoose.Schema<InterestEntity>({
-  id: Number,
+  id: {type: Number},
   lead_id: Number,
   message: String,
 }, {...mongoTimeStamps});

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import {mongoTimeStamps} from '../common';
-import {InterestSchema} from '../interests/interest.schema';
 import {incrementCounter} from '../_hooks/counter';
 import {LeadEntity} from './lead.entity';
 
