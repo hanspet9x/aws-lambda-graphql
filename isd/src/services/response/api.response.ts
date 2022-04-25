@@ -1,4 +1,5 @@
-import {IMutationResponse} from '../interfaces/mutationResponse.interface';
+
+import {IMutationResponse} from '../../interfaces/mutationResponse.interface';
 import ResponseError from './error.response';
 
 export default class APIResponse {

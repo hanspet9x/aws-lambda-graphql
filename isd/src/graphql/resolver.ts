@@ -1,7 +1,7 @@
 
 import {ISDInterestRequest, ISDRequest} from '../services/isd.interface';
 import ISDservice from '../services/isd.service';
-import APIResponse from '../utils/api.response';
+import APIResponse from '../services/response/api.response';
 
 export const resolvers = {
   Query: {
